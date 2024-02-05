@@ -1,19 +1,17 @@
 package Filters;
 
 import Interfaces.PixelFilter;
+import Interfaces.*;
 import core.DImage;
 
-public class BasicColorMask implements PixelFilter {
+public class BasicColorMask implements PixelFilter, Interactive {
     short[] target;
-    short[][] red;
-    short[][] green;
-    short[][] blue;
 
     @Override
     public DImage processImage(DImage img) {
-        red = img.getRedChannel();
-        green = img.getGreenChannel();
-        blue = img.getBlueChannel();
+        short[][] red = img.getRedChannel();
+        short[][] green = img.getGreenChannel();
+        short[][] blue = img.getBlueChannel();
 
         target = new short[]{200, 200, 200};
         for (int r = 0; r < red.length; r++) {
@@ -40,9 +38,18 @@ public class BasicColorMask implements PixelFilter {
 
 
     public void mouseClicked(int mouseX, int mouseY, DImage img) {
+        short[][] red = img.getRedChannel();
+        short[][] green = img.getGreenChannel();
+        short[][] blue = img.getBlueChannel();
+
         target[0] = red[mouseY][mouseX];
         target[1] = green[mouseY][mouseX];
         target[2] = blue[mouseY][mouseX];
+    }
+
+    @Override
+    public void keyPressed(char key) {
+
     }
 }
 

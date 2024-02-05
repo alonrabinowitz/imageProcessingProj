@@ -13,17 +13,15 @@ public class BasicColorMask implements PixelFilter, Interactive {
         short[][] green = img.getGreenChannel();
         short[][] blue = img.getBlueChannel();
 
-        target = new short[]{200, 200, 200};
+        if (target == null) target = new short[]{200, 200, 200};
         for (int r = 0; r < red.length; r++) {
             for (int c = 0; c < red[r].length; c++) {
-                if (distance(target[0], target[1], target[2], red[r][c], green[r][c], blue[r][c]) <= 30) {
-                    red[r][c] = 255;
-                    green[r][c] = 255;
-                    blue[r][c] = 255;
-                } else {
+                if (distance(target[0], target[1], target[2], red[r][c], green[r][c], blue[r][c]) <= 75) {
                     red[r][c] = 0;
                     green[r][c] = 0;
                     blue[r][c] = 0;
+                } else {
+
                 }
             }
         }

@@ -29,15 +29,16 @@ public class Convolution implements PixelFilter {
         short[][] newRGrid = new short[rGrid.length][rGrid[0].length];
         short[][] newGGrid = new short[gGrid.length][gGrid[0].length];
         short[][] newBGrid = new short[bGrid.length][bGrid[0].length];
+        double[][] kernel = generateBoxBlurKernel(15);
 
 
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[r].length; c++) {
 //                newGrid[r][c] = (short) Math.sqrt(Math.pow(getValue(grid, sobelX, r, c), 2) + Math.pow(getValue(grid, sobelY, r, c), 2));
 //                newGrid[r][c] = (short) (newGrid[r][c] >= 80 ? 255 : 0);
-                newRGrid[r][c] = (short) getValue(rGrid, betterGaussianBlur, r, c);
-                newGGrid[r][c] = (short) getValue(gGrid, betterGaussianBlur, r, c);
-                newBGrid[r][c] = (short) getValue(bGrid, betterGaussianBlur, r, c);
+                newRGrid[r][c] = (short) getValue(rGrid, kernel, r, c);
+                newGGrid[r][c] = (short) getValue(gGrid, kernel, r, c);
+                newBGrid[r][c] = (short) getValue(bGrid, kernel, r, c);
             }
         }
 //        thinning(newGrid);

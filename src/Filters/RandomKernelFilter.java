@@ -13,30 +13,17 @@ public class RandomKernelFilter implements PixelFilter {
         short[][] blue = img.getBlueChannel();
 
         short[][] reGrid = edgeKernel(grid, n);
-        reGrid = thershold(reGrid);
 
         short[][] reRed = edgeKernel(red, n);
         short[][] reGreen = edgeKernel(green, n);
         short[][] reBlue = edgeKernel(blue, n);
 
 
-        img.setPixels(reGrid);
-//        img.setColorChannels(reRed, reGreen, reBlue);
+//        img.setPixels(reGrid);
+        img.setColorChannels(reRed, reGreen, reBlue);
 
         return img;
 
-    }
-    public static short[][] thershold(short[][] img){
-        for (int i = 0; i < img.length; i++) {
-            for (int j = 0; j < img[i].length; j++) {
-                if (img[i][j] < 120){
-                    img[i][j] = 0;
-                } else {
-                    img[i][j] = 255;
-                }
-            }
-        }
-        return img;
     }
 
     public static short[][] edgeKernel(short[][] array, int size){

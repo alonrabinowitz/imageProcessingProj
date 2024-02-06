@@ -32,6 +32,8 @@ public class BasicColorMask implements PixelFilter, Interactive {
             }
         }
 
+        System.out.println("Threshold: " + k);
+
         img.setColorChannels(red, green, blue);
         return img;
     }

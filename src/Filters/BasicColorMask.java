@@ -32,7 +32,7 @@ public class BasicColorMask implements PixelFilter, Interactive {
             }
         }
 
-        System.out.println("Threshold: " + k);
+//        System.out.println("Threshold: " + k);
 
         for (short[] target : targets) {
             int sumR = 0, sumC = 0, count = 0;
@@ -45,7 +45,7 @@ public class BasicColorMask implements PixelFilter, Interactive {
                     }
                 }
             }
-            int rCenter = sumR/ count == 0 ? 1 : count, cCenter = sumC/ count == 0 ? 1 : count;
+            int rCenter = sumR/ (count != 0 ? count : 1), cCenter = sumC/ (count != 0 ? count : 1);
             for (int r = Math.max(rCenter - 2, 0); r < Math.min(rCenter + 3, img.getHeight()); r++) {
                 for (int c = Math.max(cCenter - 2, 0); c < Math.min(cCenter + 3, img.getWidth()); c++) {
                     red[r][c] = 0;

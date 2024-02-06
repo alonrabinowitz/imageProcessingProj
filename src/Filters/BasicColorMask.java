@@ -6,6 +6,7 @@ import core.DImage;
 
 public class BasicColorMask implements PixelFilter, Interactive {
     short[] target;
+    int k = 30;
 
     @Override
     public DImage processImage(DImage img) {
@@ -16,12 +17,14 @@ public class BasicColorMask implements PixelFilter, Interactive {
         if (target == null) target = new short[]{200, 200, 200};
         for (int r = 0; r < red.length; r++) {
             for (int c = 0; c < red[r].length; c++) {
-                if (distance(target[0], target[1], target[2], red[r][c], green[r][c], blue[r][c]) <= 75) {
+                if (distance(target[0], target[1], target[2], red[r][c], green[r][c], blue[r][c]) <= k) {
                     red[r][c] = target[0];
                     green[r][c] = target[1];
                     blue[r][c] = target[2];
                 } else {
-
+                    red[r][c] = 0;
+                    green[r][c] = 0;
+                    blue[r][c] = 0;
                 }
             }
         }
@@ -48,7 +51,12 @@ public class BasicColorMask implements PixelFilter, Interactive {
 
     @Override
     public void keyPressed(char key) {
-
+        if (key == '='){
+            k++;
+        }
+        if (key == '-'){
+            k--;
+        }
     }
 }
 

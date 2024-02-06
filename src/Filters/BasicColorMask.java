@@ -2,6 +2,7 @@ package Filters;
 
 import Interfaces.PixelFilter;
 import Interfaces.*;
+import Filters.*;
 import core.DImage;
 
 public class BasicColorMask implements PixelFilter, Interactive {
@@ -13,6 +14,8 @@ public class BasicColorMask implements PixelFilter, Interactive {
         short[][] red = img.getRedChannel();
         short[][] green = img.getGreenChannel();
         short[][] blue = img.getBlueChannel();
+
+        img = new Convolution().processImage(img);
 
         if (target == null) target = new short[]{200, 200, 200};
         for (int r = 0; r < red.length; r++) {

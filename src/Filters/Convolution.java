@@ -39,6 +39,9 @@ public class Convolution implements PixelFilter {
                 newRGrid[r][c] = (short) getValue(rGrid, kernel, r, c);
                 newGGrid[r][c] = (short) getValue(gGrid, kernel, r, c);
                 newBGrid[r][c] = (short) getValue(bGrid, kernel, r, c);
+                newRGrid[r][c] = (short) (newRGrid[r][c] >= 80 ? 255 : 0);
+                newGGrid[r][c] = (short) (newGGrid[r][c] >= 80 ? 255 : 0);
+                newBGrid[r][c] = (short) (newBGrid[r][c] >= 80 ? 255 : 0);
             }
         }
 //        thinning(newGrid);

@@ -45,12 +45,15 @@ public class BasicColorMask implements PixelFilter, Interactive {
                     }
                 }
             }
-            int rCenter = sumR/count, cCenter = sumC/count;
+            int rCenter = sumR/ count == 0 ? 1 : count, cCenter = sumC/ count == 0 ? 1 : count;
             for (int r = Math.max(rCenter - 2, 0); r < Math.min(rCenter + 3, img.getHeight()); r++) {
                 for (int c = Math.max(cCenter - 2, 0); c < Math.min(cCenter + 3, img.getWidth()); c++) {
                     red[r][c] = 0;
                     green[r][c] = 0;
                     blue[r][c] = 0;
+                    newRed[r][c] = 255;
+                    newGreen[r][c] = 255;
+                    newBlue[r][c] = 255;
                 }
             }
         }

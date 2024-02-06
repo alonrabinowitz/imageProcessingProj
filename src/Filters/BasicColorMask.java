@@ -8,7 +8,6 @@ import core.DImage;
 import java.util.ArrayList;
 
 public class BasicColorMask implements PixelFilter, Interactive {
-    short[] target;
     ArrayList<short[]> targets;
     int k = 30;
 
@@ -25,27 +24,39 @@ public class BasicColorMask implements PixelFilter, Interactive {
 
         if (targets == null) targets = new ArrayList<>();
 
-//        if (target == null) target = new short[]{200, 200, 200};
         for (int r = 0; r < red.length; r++) {
             for (int c = 0; c < red[r].length; c++) {
                 for (short[] target : targets) {
                     mask(red[r][c], green[r][c], blue[r][c], target, k, newRed, newGreen, newBlue, c, r);
                 }
-//                if (distance(target[0], target[1], target[2], red[r][c], green[r][c], blue[r][c]) <= k) {
-//                    red[r][c] = target[0];
-//                    green[r][c] = target[1];
-//                    blue[r][c] = target[2];
-//                } else {
-//                    red[r][c] = 0;
-//                    green[r][c] = 0;
-//                    blue[r][c] = 0;
-//                }
             }
         }
 
         System.out.println("Threshold: " + k);
 
-        img.setColorChannels(newRed, newGreen, newBlue);
+        for (short[] target : targets) {
+            int sumR = 0, sumC = 0, count = 0;
+            for (int r = 0; r < red.length; r++) {
+                for (int c = 0; c < red[r].length; c++) {
+                    if (newRed[r][c] == target[0] && newGreen[r][c] == target[1] && newBlue[r][c] == target[2]) {
+                        sumR += r;
+                        sumC += c;
+                        count++;
+                    }
+                }
+            }
+            int rCenter = sumR/count, cCenter = sumC/count;
+            for (int r = Math.max(rCenter - 2, 0); r < Math.min(rCenter + 3, img.getHeight()); r++) {
+                for (int c = Math.max(cCenter - 2, 0); c < Math.min(cCenter + 3, img.getWidth()); c++) {
+                    red[r][c] = 0;
+                    green[r][c] = 0;
+                    blue[r][c] = 0;
+                }
+            }
+        }
+
+//        img.setColorChannels(newRed, newGreen, newBlue);
+        img.setColorChannels(red, green, blue);
         return img;
     }
 

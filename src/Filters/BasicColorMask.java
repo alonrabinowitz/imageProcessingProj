@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class BasicColorMask implements PixelFilter, Interactive {
     ArrayList<short[]> targets;
     int k = 35;
+    double kRatios = 0.1;
 
     @Override
     public DImage processImage(DImage img) {
@@ -30,7 +31,7 @@ public class BasicColorMask implements PixelFilter, Interactive {
         for (int r = 0; r < red.length; r++) {
             for (int c = 0; c < red[r].length; c++) {
                 for (short[] target : targets) {
-                    mask(red[r][c], green[r][c], blue[r][c], target, k, newRed, newGreen, newBlue, c, r);
+                    maskRatios(red[r][c], green[r][c], blue[r][c], target, k, newRed, newGreen, newBlue, c, r);
                 }
             }
         }
@@ -64,48 +65,48 @@ public class BasicColorMask implements PixelFilter, Interactive {
         img.setColorChannels(newRed, newGreen, newBlue);
 
 //        img = new NoiseReduction().processImage(img);
-        img = new Convolution(Convolution.gaussianBlur).processImage(img);
-
-        red = img.getRedChannel();
-        green = img.getGreenChannel();
-        blue = img.getBlueChannel();
-        newRed = new short[red.length][red[0].length];
-        newGreen = new short[green.length][green[0].length];
-        newBlue = new short[blue.length][blue[0].length];
-
-        for (int r = 0; r < red.length; r++) {
-            for (int c = 0; c < red[r].length; c++) {
-                for (short[] target : targets) {
-                    mask(red[r][c], green[r][c], blue[r][c], target, k/3, newRed, newGreen, newBlue, c, r);
-                }
-            }
-        }
-
-        for (short[] target : targets) {
-            int sumR = 0, sumC = 0, count = 0;
-            for (int r = 0; r < red.length; r++) {
-                for (int c = 0; c < red[r].length; c++) {
-                    if (newRed[r][c] == target[0] && newGreen[r][c] == target[1] && newBlue[r][c] == target[2]) {
-                        sumR += r;
-                        sumC += c;
-                        count++;
-                    }
-                }
-            }
-            int rCenter = sumR/ (count != 0 ? count : 1), cCenter = sumC/ (count != 0 ? count : 1);
-            for (int r = Math.max(rCenter - 2, 0); r < Math.min(rCenter + 3, img.getHeight()); r++) {
-                for (int c = Math.max(cCenter - 2, 0); c < Math.min(cCenter + 3, img.getWidth()); c++) {
-                    red[r][c] = 0;
-                    green[r][c] = 0;
-                    blue[r][c] = 0;
-                    newRed[r][c] = 255;
-                    newGreen[r][c] = 255;
-                    newBlue[r][c] = 255;
-                }
-            }
-        }
-
-        img.setColorChannels(newRed, newGreen, newBlue);
+//        img = new Convolution(Convolution.gaussianBlur).processImage(img);
+//
+//        red = img.getRedChannel();
+//        green = img.getGreenChannel();
+//        blue = img.getBlueChannel();
+//        newRed = new short[red.length][red[0].length];
+//        newGreen = new short[green.length][green[0].length];
+//        newBlue = new short[blue.length][blue[0].length];
+//
+//        for (int r = 0; r < red.length; r++) {
+//            for (int c = 0; c < red[r].length; c++) {
+//                for (short[] target : targets) {
+//                    mask(red[r][c], green[r][c], blue[r][c], target, k/3, newRed, newGreen, newBlue, c, r);
+//                }
+//            }
+//        }
+//
+//        for (short[] target : targets) {
+//            int sumR = 0, sumC = 0, count = 0;
+//            for (int r = 0; r < red.length; r++) {
+//                for (int c = 0; c < red[r].length; c++) {
+//                    if (newRed[r][c] == target[0] && newGreen[r][c] == target[1] && newBlue[r][c] == target[2]) {
+//                        sumR += r;
+//                        sumC += c;
+//                        count++;
+//                    }
+//                }
+//            }
+//            int rCenter = sumR/ (count != 0 ? count : 1), cCenter = sumC/ (count != 0 ? count : 1);
+//            for (int r = Math.max(rCenter - 2, 0); r < Math.min(rCenter + 3, img.getHeight()); r++) {
+//                for (int c = Math.max(cCenter - 2, 0); c < Math.min(cCenter + 3, img.getWidth()); c++) {
+//                    red[r][c] = 0;
+//                    green[r][c] = 0;
+//                    blue[r][c] = 0;
+//                    newRed[r][c] = 255;
+//                    newGreen[r][c] = 255;
+//                    newBlue[r][c] = 255;
+//                }
+//            }
+//        }
+//
+//        img.setColorChannels(newRed, newGreen, newBlue);
 //        img.setColorChannels(red, green, blue);
         return img;
     }
@@ -118,8 +119,26 @@ public class BasicColorMask implements PixelFilter, Interactive {
         }
     }
 
+    public void maskRatios(int r, int g, int b, short[] target, int k, short[][] red, short[][] green, short[][] blue, int x, int y){
+        if (distanceRatios(target[0], target[1], target[2], r, g, b) <= k) {
+            red[y][x] = target[0];
+            green[y][x] = target[1];
+            blue[y][x] = target[2];
+        }
+    }
+
     public double distance(int r1, int g1, int b1, int r2, int g2, int b2) {
         return Math.sqrt(Math.pow(r1-r2, 2) + Math.pow(g1-g2, 2) + Math.pow(b1-b2, 2));
+    }
+
+    public double distanceRatios(int r1, int g1, int b1, int r2, int g2, int b2) {
+        double tRB = (double) r1/b1;
+        double tRG = (double) r1/g1;
+        double oRB = (double) r2/b2;
+        double oRG = (double) r2/g2;
+        double diffA = Math.abs(tRB - oRB);
+        double diffB = Math.abs(tRG - oRG);
+        return (diffA + diffB)/2;
     }
 
 

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class BasicColorMask implements PixelFilter, Interactive {
     ArrayList<short[]> targets;
     int k = 35;
-    double kRatios = 0.1;
+    double kRatios = 0.01;
 
     @Override
     public DImage processImage(DImage img) {

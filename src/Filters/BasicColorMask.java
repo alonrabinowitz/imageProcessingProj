@@ -7,9 +7,11 @@ import core.DImage;
 
 import java.util.ArrayList;
 
+//TODO: Downscaling/NoiseReduction
+//TODO: MultiColor Ball Finding
 public class BasicColorMask implements PixelFilter, Interactive {
     ArrayList<short[]> targets;
-    int k = 40;
+    int k = 35;
 
     @Override
     public DImage processImage(DImage img) {

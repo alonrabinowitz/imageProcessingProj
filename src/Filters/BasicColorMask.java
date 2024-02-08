@@ -16,7 +16,7 @@ public class BasicColorMask implements PixelFilter, Interactive {
     @Override
     public DImage processImage(DImage img) {
 
-        img = new Convolution(Convolution.generateBoxBlurKernel(15)).processImage(img);
+        img = new Convolution(Convolution.generateBoxBlurKernel(5)).processImage(img);
 
         short[][] red = img.getRedChannel();
         short[][] green = img.getGreenChannel();

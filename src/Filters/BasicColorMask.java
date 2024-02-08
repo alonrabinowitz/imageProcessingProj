@@ -31,7 +31,7 @@ public class BasicColorMask implements PixelFilter, Interactive {
         for (int r = 0; r < red.length; r++) {
             for (int c = 0; c < red[r].length; c++) {
                 for (short[] target : targets) {
-                    maskRatios(red[r][c], green[r][c], blue[r][c], target, k, newRed, newGreen, newBlue, c, r);
+                    mask(red[r][c], green[r][c], blue[r][c], target, k, newRed, newGreen, newBlue, c, r);
                 }
             }
         }

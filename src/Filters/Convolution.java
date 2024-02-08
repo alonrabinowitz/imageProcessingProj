@@ -6,17 +6,19 @@ import core.DImage;
 import java.util.Arrays;
 
 public class Convolution implements PixelFilter {
-    private double[][] boxBlurKernel = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
-    private double[][] prewittEdgeKernel = {{-1, -1, -1}, {-1, 8, -1}, {-1, -1, -1}};
-    private double[][] sharpen = {{0, -1, 0}, {-1, 5, -1}, {0, -1, 0}};
-    private double[][] gaussianBlur = {{1, 2, 1}, {2, 4, 2}, {1, 2, 1}};
-    private double[][] betterGaussianBlur = {{0, 0, 0, 5, 0, 0, 0}, {0, 5, 18, 32, 18, 5, 0}, {0, 18, 64, 100, 64, 18, 0}, {5, 32, 100, 100, 100, 32, 5}, {0, 18, 64, 100, 64, 18, 0}, {0, 5, 18, 32, 18, 5, 0}, {0, 0, 0, 5, 0, 0, 0}};
-    private double[][] sobelX = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
-    private double[][] sobelY = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
-    private short[][] thinningA = {{0, 0, 0}, {-1, 255, -1}, {255, 255, 255}};
-    private short[][] thinningB = {{-1, 0, 0}, {255, 255, 0}, {-1, 255, -1}};
+    public static double[][] boxBlurKernel = {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}};
+    public static double[][] prewittEdgeKernel = {{-1, -1, -1}, {-1, 8, -1}, {-1, -1, -1}};
+    public static double[][] sharpen = {{0, -1, 0}, {-1, 5, -1}, {0, -1, 0}};
+    public static double[][] gaussianBlur = {{1, 2, 1}, {2, 4, 2}, {1, 2, 1}};
+    public static double[][] betterGaussianBlur = {{0, 0, 0, 5, 0, 0, 0}, {0, 5, 18, 32, 18, 5, 0}, {0, 18, 64, 100, 64, 18, 0}, {5, 32, 100, 100, 100, 32, 5}, {0, 18, 64, 100, 64, 18, 0}, {0, 5, 18, 32, 18, 5, 0}, {0, 0, 0, 5, 0, 0, 0}};
+    public static double[][] sobelX = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
+    public static double[][] sobelY = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
+    public static short[][] thinningA = {{0, 0, 0}, {-1, 255, -1}, {255, 255, 255}};
+    public static short[][] thinningB = {{-1, 0, 0}, {255, 255, 0}, {-1, 255, -1}};
+    private double[][] kernel;
 
-    public Convolution() {
+    public Convolution(double[][] k) {
+        kernel = k;
     }
 
     @Override
@@ -29,7 +31,6 @@ public class Convolution implements PixelFilter {
         short[][] newRGrid = new short[rGrid.length][rGrid[0].length];
         short[][] newGGrid = new short[gGrid.length][gGrid[0].length];
         short[][] newBGrid = new short[bGrid.length][bGrid[0].length];
-        double[][] kernel = generateBoxBlurKernel(15);
 
 
         for (int r = 0; r < grid.length; r++) {

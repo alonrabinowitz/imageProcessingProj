@@ -22,7 +22,7 @@ public class BasicColorMask implements PixelFilter, Interactive {
         short[][] newGreen = new short[green.length][green[0].length];
         short[][] newBlue = new short[blue.length][blue[0].length];
 
-        img = new Convolution().processImage(img);
+        img = new Convolution(Convolution.generateBoxBlurKernel(15)).processImage(img);
 
         if (targets == null) targets = new ArrayList<>();
 
@@ -61,6 +61,8 @@ public class BasicColorMask implements PixelFilter, Interactive {
         }
 
         img.setColorChannels(newRed, newGreen, newBlue);
+
+        img = new NoiseReduction().processImage(img);
 //        img.setColorChannels(red, green, blue);
         return img;
     }

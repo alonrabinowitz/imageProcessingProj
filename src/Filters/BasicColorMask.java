@@ -63,7 +63,8 @@ public class BasicColorMask implements PixelFilter, Interactive {
 
         img.setColorChannels(newRed, newGreen, newBlue);
 
-        img = new NoiseReduction().processImage(img);
+//        img = new NoiseReduction().processImage(img);
+        img = new Convolution(Convolution.gaussianBlur).processImage(img);
 
         red = img.getRedChannel();
         green = img.getGreenChannel();

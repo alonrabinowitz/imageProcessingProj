@@ -36,7 +36,7 @@ public class BasicColorMask implements PixelFilter, Interactive {
             }
         }
 
-//        System.out.println("Threshold: " + k);
+        System.out.println("Threshold: " + k);
 
         for (short[] target : targets) {
             int sumR = 0, sumC = 0, count = 0;
@@ -107,7 +107,6 @@ public class BasicColorMask implements PixelFilter, Interactive {
 //        }
 //
 //        img.setColorChannels(newRed, newGreen, newBlue);
-//        img.setColorChannels(red, green, blue);
         return img;
     }
 

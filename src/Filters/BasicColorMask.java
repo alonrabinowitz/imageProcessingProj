@@ -107,6 +107,7 @@ public class BasicColorMask implements PixelFilter, Interactive {
 //        }
 //
 //        img.setColorChannels(newRed, newGreen, newBlue);
+        img.setColorChannels(red, green, blue);
         return img;
     }
 

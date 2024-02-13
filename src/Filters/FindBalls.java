@@ -37,7 +37,7 @@ public class FindBalls{
         for (int i = 0; i < colorCount; i++) {
             for (int j = 0; j < ballList.size(); j++) {
                 int num = (int) (Math.random() * ballList.size());
-                int[] loc = ballList.get(num)[j];
+                int[] loc = ballList.get(num)[i];
                 points.add(loc);
             }
         }

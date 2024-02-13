@@ -138,7 +138,7 @@ class Cluster {
     }
 
     public boolean sameLoc(){
-        return distance(x, y, lastX, lastY) < 0.01;
+        return distance(x, y, lastX, lastY) < 10;
     }
 
     public ArrayList<Point> getPoints() {

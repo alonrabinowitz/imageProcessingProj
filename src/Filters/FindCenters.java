@@ -28,11 +28,11 @@ public class FindCenters implements PixelFilter {
                 initialY = (int) (Math.random() * red.length);
             }
             int left = initialX, right = initialX, top = initialY, bottom = initialY;
-            while (left > 0 && isBlack(temp, initialY, left)) left--;
-            while (right < red[0].length-1 && isBlack(temp, initialY, right)) right++;
+            while (left >= 0 && isBlack(temp, initialY, left)) left--;
+            while (right < red[0].length && isBlack(temp, initialY, right)) right++;
             int x = (left+right)/2;
-            while (top > 0 && isBlack(temp, top, x)) top--;
-            while (bottom < red.length-1 && isBlack(temp, bottom, x)) bottom++;
+            while (top >= 0 && isBlack(temp, top, x)) top--;
+            while (bottom < red.length && isBlack(temp, bottom, x)) bottom++;
             int y = (top+bottom)/2;
             centers.add(new int[]{x, y});
             for (short[][] color : temp) {

@@ -11,7 +11,7 @@ public class FindBalls{
         setColorCount(colors);
         setBallList(red, green, blue, colors);
         setRandomPoints();
-        ballList = findBallCluster(red, green, blue, colors);
+        ballList = findBallCluster();
 
         return ballCenters;
     }
@@ -35,14 +35,16 @@ public class FindBalls{
 
     public void setRandomPoints(){
         for (int i = 0; i < colorCount; i++) {
-            for (int i = 0; i < ballList.size(); i++) {
+            for (int j = 0; j < ballList.size(); j++) {
                 int num = (int) (Math.random() * ballList.size());
-                int[] loc = ballList.get(num)[i];
+                int[] loc = ballList.get(num)[j];
                 points.add(loc);
             }
         }
     }
-    public  ArrayList<int[][]> findBallCluster(ArrayList<int[][]> ballList, ArrayList<int[]> points) {
+    public  ArrayList<int[][]> findBallCluster() {
+        //ballList --- listed balls
+        //points --- set points that needed ball points to be assigned
         ArrayList<int[][]> coloredBallsLoc = new ArrayList<>();
         //find close points by canceling points that are far from the average
 

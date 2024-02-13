@@ -12,6 +12,7 @@ public class FindBalls{
         setBallList(red, green, blue, colors);
         setRandomPoints();
         ballList = findBallCluster();
+        ballCenters = findCluterCenters();
 
         return ballCenters;
     }
@@ -68,7 +69,7 @@ public class FindBalls{
                 if (ball[i][0] - points.get(i)[0] < rowAvg){
                     if (ball[i][1] - points.get(i)[1] < colAvg){
                         loc[i][0] = ball[i][0];
-                        loc[i][1] = ball[i][0];
+                        loc[i][1] = ball[i][1];
                         coloredBallsLoc.add(loc);
                     }
                 }
@@ -82,6 +83,25 @@ public class FindBalls{
 
 
     //find the center of the clusters
+    public ArrayList<int[][]> findCluterCenters(){
+        ArrayList<int[][]> centers = ballCenters;
+        for (int i = 0; i < colorCount; i++){
+            int[][] loc = new int[colorCount][2];
+            double rAvg = 0;
+            double cAvg = 0;
+            int count = 0;
+            for (int j = 0; j < ballList.size(); j++) {
+                rAvg += ballList.get(j)[i][0];
+                cAvg += ballList.get(j)[i][0];
+            }
+            rAvg /= count;
+            cAvg /= count;
+            loc[i][0] = (int)(rAvg);
+            loc[i][1] = (int)(cAvg);
+            centers.add(loc);
+        }
+        return ballCenters;
+    }
 
 
     public static boolean checkColor(short red, short green, short blue, short[] color){

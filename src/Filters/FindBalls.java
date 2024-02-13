@@ -37,7 +37,7 @@ public class FindBalls{
         for (int i = 0; i < colorCount; i++) {
             for (int j = 0; j < ballList.size(); j++) {
                 int num = (int) (Math.random() * ballList.size());
-                int[] loc = ballList.get(num)[j];
+                int[] loc = ballList.get(num)[i];
                 points.add(loc);
             }
         }
@@ -46,7 +46,11 @@ public class FindBalls{
         //ballList --- listed balls
         //points --- set points that needed ball points to be assigned
         ArrayList<int[][]> coloredBallsLoc = new ArrayList<>();
-        //find close points by canceling points that are far from the average
+        //Loop over the points, and find closest ballList points
+        //find close points by canceling points that are far from the average of the given point
+        //Add points that are far from the average but close to the given point to the coloredBallLoc list for each color.
+
+
 
         return coloredBallsLoc;
     }

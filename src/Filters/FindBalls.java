@@ -46,7 +46,11 @@ public class FindBalls{
         //ballList --- listed balls
         //points --- set points that needed ball points to be assigned
         ArrayList<int[][]> coloredBallsLoc = new ArrayList<>();
-        //find close points by canceling points that are far from the average
+        //Loop over the points, and find closest ballList points
+        //find close points by canceling points that are far from the average of the given point
+        //Add points that are far from the average but close to the given point to the coloredBallLoc list for each color.
+
+
 
         return coloredBallsLoc;
     }

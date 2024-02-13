@@ -64,25 +64,25 @@ public class BasicColorMask implements PixelFilter, Interactive {
 //            }
 //        }
 
-        for (short[] target : targets) {
-            Clustering clustering = new Clustering(red, green, blue, target, k);
-            clustering.cluster();
-            for (int[] loc : clustering.getCenters()) {
-                for (int r = Math.max(loc[0] - 2, 0); r < Math.min(loc[0] + 3, img.getHeight()); r++) {
-                    for (int c = Math.max(loc[1] - 2, 0); c < Math.min(loc[1] + 3, img.getWidth()); c++) {
-                        red[r][c] = 0;
-                        green[r][c] = 0;
-                        blue[r][c] = 0;
-                        newRed[r][c] = 255;
-                        newGreen[r][c] = 255;
-                        newBlue[r][c] = 255;
-                    }
-                }
-            }
-        }
+//        for (short[] target : targets) {
+//            Clustering clustering = new Clustering(red, green, blue, target, k);
+//            clustering.cluster();
+//            for (int[] loc : clustering.getCenters()) {
+//                for (int r = Math.max(loc[0] - 2, 0); r < Math.min(loc[0] + 3, img.getHeight()); r++) {
+//                    for (int c = Math.max(loc[1] - 2, 0); c < Math.min(loc[1] + 3, img.getWidth()); c++) {
+//                        red[r][c] = 0;
+//                        green[r][c] = 0;
+//                        blue[r][c] = 0;
+//                        newRed[r][c] = 255;
+//                        newGreen[r][c] = 255;
+//                        newBlue[r][c] = 255;
+//                    }
+//                }
+//            }
+//        }
 
         img.setColorChannels(newRed, newGreen, newBlue);
-
+//        System.out.println("Finished first filter");
 //        img.setColorChannels(red, green, blue);
         img = new FindCenters().processImage(img);
         return img;

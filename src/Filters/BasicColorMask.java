@@ -5,7 +5,9 @@ import Interfaces.*;
 import Filters.*;
 import core.DImage;
 
+import javax.swing.*;
 import java.util.ArrayList;
+
 
 //TODO: Downscaling/NoiseReduction
 //TODO: MultiColor Ball Finding
@@ -38,50 +40,6 @@ public class BasicColorMask implements PixelFilter, Interactive {
 
         System.out.println("Threshold: " + k);
 
-        for (short[] target : targets) {
-            int sumR = 0, sumC = 0, count = 0;
-            for (int r = 0; r < red.length; r++) {
-                for (int c = 0; c < red[r].length; c++) {
-                    if (newRed[r][c] == target[0] && newGreen[r][c] == target[1] && newBlue[r][c] == target[2]) {
-                        sumR += r;
-                        sumC += c;
-                        count++;
-                    }
-                }
-            }
-            int rCenter = sumR/ (count != 0 ? count : 1), cCenter = sumC/ (count != 0 ? count : 1);
-            for (int r = Math.max(rCenter - 2, 0); r < Math.min(rCenter + 3, img.getHeight()); r++) {
-                for (int c = Math.max(cCenter - 2, 0); c < Math.min(cCenter + 3, img.getWidth()); c++) {
-                    red[r][c] = 0;
-                    green[r][c] = 0;
-                    blue[r][c] = 0;
-                    newRed[r][c] = 255;
-                    newGreen[r][c] = 255;
-                    newBlue[r][c] = 255;
-                }
-            }
-        }
-
-        img.setColorChannels(newRed, newGreen, newBlue);
-
-//        img = new NoiseReduction().processImage(img);
-//        img = new Convolution(Convolution.gaussianBlur).processImage(img);
-//
-//        red = img.getRedChannel();
-//        green = img.getGreenChannel();
-//        blue = img.getBlueChannel();
-//        newRed = new short[red.length][red[0].length];
-//        newGreen = new short[green.length][green[0].length];
-//        newBlue = new short[blue.length][blue[0].length];
-//
-//        for (int r = 0; r < red.length; r++) {
-//            for (int c = 0; c < red[r].length; c++) {
-//                for (short[] target : targets) {
-//                    mask(red[r][c], green[r][c], blue[r][c], target, k/3, newRed, newGreen, newBlue, c, r);
-//                }
-//            }
-//        }
-//
 //        for (short[] target : targets) {
 //            int sumR = 0, sumC = 0, count = 0;
 //            for (int r = 0; r < red.length; r++) {
@@ -105,9 +63,27 @@ public class BasicColorMask implements PixelFilter, Interactive {
 //                }
 //            }
 //        }
-//
-//        img.setColorChannels(newRed, newGreen, newBlue);
-        img.setColorChannels(red, green, blue);
+
+        for (short[] target : targets) {
+            Clustering clustering = new Clustering(red, green, blue, target, k);
+            clustering.cluster();
+            for (int[] loc : clustering.getCenters()) {
+                for (int r = Math.max(loc[0] - 2, 0); r < Math.min(loc[0] + 3, img.getHeight()); r++) {
+                    for (int c = Math.max(loc[1] - 2, 0); c < Math.min(loc[1] + 3, img.getWidth()); c++) {
+                        red[r][c] = 0;
+                        green[r][c] = 0;
+                        blue[r][c] = 0;
+                        newRed[r][c] = 255;
+                        newGreen[r][c] = 255;
+                        newBlue[r][c] = 255;
+                    }
+                }
+            }
+        }
+
+        img.setColorChannels(newRed, newGreen, newBlue);
+
+//        img.setColorChannels(red, green, blue);
         return img;
     }
 
@@ -147,7 +123,8 @@ public class BasicColorMask implements PixelFilter, Interactive {
         short[][] green = img.getGreenChannel();
         short[][] blue = img.getBlueChannel();
 
-        targets.add(new short[]{red[mouseY][mouseX], green[mouseY][mouseX], blue[mouseY][mouseX]});
+        short num = Short.parseShort(JOptionPane.showInputDialog("How many balls?"));;
+        targets.add(new short[]{red[mouseY][mouseX], green[mouseY][mouseX], blue[mouseY][mouseX], num});
     }
 
     @Override

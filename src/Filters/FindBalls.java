@@ -49,7 +49,32 @@ public class FindBalls{
         //Loop over the points, and find closest ballList points
         //find close points by canceling points that are far from the average of the given point
         //Add points that are far from the average but close to the given point to the coloredBallLoc list for each color.
+        int[][] loc = new int[points.size()][2];
+        for (int i = 0; i < points.size(); i++) {
+            double rowSum = 0;
+            double colSum = 0;
+            double count = 0;
+            for (int[][] ball : ballList){
+                if (ball[i] == points.get(i)){
+                    rowSum += ball[i][0];
+                    colSum += ball[i][1];
+                    count++;
+                }
+            }
+            double rowAvg = rowSum / count;
+            double colAvg = colSum / count;
 
+            for (int[][] ball : ballList) {
+                if (ball[i][0] - points.get(i)[0] < rowAvg){
+                    if (ball[i][1] - points.get(i)[1] < colAvg){
+                        loc[i][0] = ball[i][0];
+                        loc[i][1] = ball[i][0];
+                        coloredBallsLoc.add(loc);
+                    }
+                }
+            }
+
+        }
 
 
         return coloredBallsLoc;

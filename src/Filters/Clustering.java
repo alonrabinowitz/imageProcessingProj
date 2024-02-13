@@ -30,16 +30,16 @@ public class Clustering {
     }
 
     public void cluster() {
-//        while (true) {
-        for (int i = 0; i < 20; i++) {
+        while (true) {
+//        for (int i = 0; i < 20; i++) {
             clearClusters(clusters);
             assignPointsToClusters(points, clusters);
             reCalculateClusters(clusters);
             boolean done = true;
-//            for (Cluster c : clusters) {
-//                if (!c.sameLoc()) done = false;
-//            }
-//            if (done) break;
+            for (Cluster c : clusters) {
+                if (!c.sameLoc()) done = false;
+            }
+            if (done) break;
         }
         for (Cluster c : clusters) {
             centers.add(new int[]{c.getX(), c.getY()});

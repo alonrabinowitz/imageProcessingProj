@@ -124,8 +124,8 @@ public class BasicColorMask implements PixelFilter, Interactive {
         short[][] green = img.getGreenChannel();
         short[][] blue = img.getBlueChannel();
 
-        short num = Short.parseShort(JOptionPane.showInputDialog("How many balls?"));;
-        targets.add(new short[]{red[mouseY][mouseX], green[mouseY][mouseX], blue[mouseY][mouseX], num});
+//        short num = Short.parseShort(JOptionPane.showInputDialog("How many balls?"));
+        targets.add(new short[]{red[mouseY][mouseX], green[mouseY][mouseX], blue[mouseY][mouseX]});
     }
 
     @Override

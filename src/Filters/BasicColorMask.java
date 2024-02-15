@@ -89,7 +89,7 @@ public class BasicColorMask implements PixelFilter, Interactive {
         img.setColorChannels(newRed, newGreen, newBlue);
         System.out.println("Finished first filter");
 //        img.setColorChannels(red, green, blue);
-//        img = new FindCenters().processImage(img);
+        img = new FindCenters().processImage(img);
         return img;
     }
 

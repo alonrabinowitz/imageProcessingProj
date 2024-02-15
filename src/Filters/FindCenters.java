@@ -29,10 +29,14 @@ public class FindCenters implements PixelFilter {
             }
             int left = initialX, right = initialX, top = initialY, bottom = initialY;
             while (left >= 0 && isBlack(temp, initialY, left)) left--;
+            System.out.println("Left: " + left);
             while (right < red[0].length && isBlack(temp, initialY, right)) right++;
+            System.out.println("Right: " + right);
             int x = (left+right)/2;
             while (top >= 0 && isBlack(temp, top, x)) top--;
+            System.out.println("Top: " + top);
             while (bottom < red.length && isBlack(temp, bottom, x)) bottom++;
+            System.out.println("Bottom: " + bottom);
             int y = (top+bottom)/2;
             centers.add(new int[]{x, y});
             for (short[][] color : temp) {
@@ -44,8 +48,21 @@ public class FindCenters implements PixelFilter {
             }
         }
 
-//        img.setColorChannels(red, green, blue);
-        img.setColorChannels(tempRed, tempGreen, tempBlue);
+        for (int[] center : centers) {
+            for (int r = Math.max(center[1] - 2, 0); r < Math.min(center[1] + 3, img.getHeight()); r++) {
+                for (int c = Math.max(center[0] - 2, 0); c < Math.min(center[0] + 3, img.getWidth()); c++) {
+                    tempRed[r][c] = 255;
+                    tempGreen[r][c] = 255;
+                    tempBlue[r][c] = 255;
+                    red[r][c] = 0;
+                    green[r][c] = 0;
+                    blue[r][c] = 0;
+                }
+            }
+        }
+
+        img.setColorChannels(red, green, blue);
+//        img.setColorChannels(tempRed, tempGreen, tempBlue);
         return img;
     }
 

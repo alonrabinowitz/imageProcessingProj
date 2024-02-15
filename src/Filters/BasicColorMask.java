@@ -55,16 +55,16 @@ public class BasicColorMask implements PixelFilter, Interactive {
                 }
             }
             int rCenter = sumR/ (count != 0 ? count : 1), cCenter = sumC/ (count != 0 ? count : 1);
-//            for (int r = Math.max(rCenter - 2, 0); r < Math.min(rCenter + 3, img.getHeight()); r++) {
-//                for (int c = Math.max(cCenter - 2, 0); c < Math.min(cCenter + 3, img.getWidth()); c++) {
-//                    red[r][c] = 0;
-//                    green[r][c] = 0;
-//                    blue[r][c] = 0;
-//                    newRed[r][c] = 255;
-//                    newGreen[r][c] = 255;
-//                    newBlue[r][c] = 255;
-//                }
-//            }
+            for (int r = Math.max(rCenter - 2, 0); r < Math.min(rCenter + 3, img.getHeight()); r++) {
+                for (int c = Math.max(cCenter - 2, 0); c < Math.min(cCenter + 3, img.getWidth()); c++) {
+                    red[r][c] = 0;
+                    green[r][c] = 0;
+                    blue[r][c] = 0;
+                    newRed[r][c] = 255;
+                    newGreen[r][c] = 255;
+                    newBlue[r][c] = 255;
+                }
+            }
             System.out.println("Center: " + rCenter + ", " + cCenter);
         }
         System.out.println("have center");
@@ -89,7 +89,7 @@ public class BasicColorMask implements PixelFilter, Interactive {
         img.setColorChannels(newRed, newGreen, newBlue);
         System.out.println("Finished first filter");
 //        img.setColorChannels(red, green, blue);
-        img = new FindCenters().processImage(img);
+//        img = new FindCenters().processImage(img);
         return img;
     }
 

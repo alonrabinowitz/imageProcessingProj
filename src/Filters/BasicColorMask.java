@@ -42,31 +42,31 @@ public class BasicColorMask implements PixelFilter, Interactive {
 
         System.out.println("Threshold: " + k);
 
-        for (short[] target : targets) {
-            System.out.println("finding center for " + target[0] + ", " + target[1] + ", " + target[2]);
-            int sumR = 0, sumC = 0, count = 0;
-            for (int r = 0; r < red.length; r++) {
-                for (int c = 0; c < red[r].length; c++) {
-                    if (newRed[r][c] == target[0] && newGreen[r][c] == target[1] && newBlue[r][c] == target[2]) {
-                        sumR += r;
-                        sumC += c;
-                        count++;
-                    }
-                }
-            }
-            int rCenter = sumR/ (count != 0 ? count : 1), cCenter = sumC/ (count != 0 ? count : 1);
-            for (int r = Math.max(rCenter - 2, 0); r < Math.min(rCenter + 3, img.getHeight()); r++) {
-                for (int c = Math.max(cCenter - 2, 0); c < Math.min(cCenter + 3, img.getWidth()); c++) {
-                    red[r][c] = 0;
-                    green[r][c] = 0;
-                    blue[r][c] = 0;
-                    newRed[r][c] = 255;
-                    newGreen[r][c] = 255;
-                    newBlue[r][c] = 255;
-                }
-            }
-            System.out.println("Center: " + rCenter + ", " + cCenter);
-        }
+//        for (short[] target : targets) {
+//            System.out.println("finding center for " + target[0] + ", " + target[1] + ", " + target[2]);
+//            int sumR = 0, sumC = 0, count = 0;
+//            for (int r = 0; r < red.length; r++) {
+//                for (int c = 0; c < red[r].length; c++) {
+//                    if (newRed[r][c] == target[0] && newGreen[r][c] == target[1] && newBlue[r][c] == target[2]) {
+//                        sumR += r;
+//                        sumC += c;
+//                        count++;
+//                    }
+//                }
+//            }
+//            int rCenter = sumR/ (count != 0 ? count : 1), cCenter = sumC/ (count != 0 ? count : 1);
+//            for (int r = Math.max(rCenter - 2, 0); r < Math.min(rCenter + 3, img.getHeight()); r++) {
+//                for (int c = Math.max(cCenter - 2, 0); c < Math.min(cCenter + 3, img.getWidth()); c++) {
+//                    red[r][c] = 0;
+//                    green[r][c] = 0;
+//                    blue[r][c] = 0;
+//                    newRed[r][c] = 255;
+//                    newGreen[r][c] = 255;
+//                    newBlue[r][c] = 255;
+//                }
+//            }
+//            System.out.println("Center: " + rCenter + ", " + cCenter);
+//        }
         System.out.println("have center");
 //        for (short[] target : targets) {
 //            Clustering clustering = new Clustering(red, green, blue, target, k);
@@ -89,7 +89,23 @@ public class BasicColorMask implements PixelFilter, Interactive {
         img.setColorChannels(newRed, newGreen, newBlue);
         System.out.println("Finished first filter");
 //        img.setColorChannels(red, green, blue);
-//        img = new FindCenters().processImage(img);
+//        img = new Convolution(Convolution.generateBoxBlurKernel(5)).processImage(img);
+//
+//        red = img.getRedChannel();
+//        green = img.getGreenChannel();
+//        blue = img.getBlueChannel();
+//        newRed = new short[red.length][red[0].length];
+//        newGreen = new short[green.length][green[0].length];
+//        newBlue = new short[blue.length][blue[0].length];
+//
+//        for (int r = 0; r < red.length; r++) {
+//            for (int c = 0; c < red[r].length; c++) {
+//                mask(red[r][c], green[r][c], blue[r][c], new short[]{255, 255, 255}, 100, newRed, newGreen, newBlue, c, r);
+//            }
+//        }
+//        img.setColorChannels(newRed, newGreen, newBlue);
+
+        img = new FindCenters().processImage(img);
         return img;
     }
 

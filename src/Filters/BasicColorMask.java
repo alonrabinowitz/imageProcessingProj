@@ -42,6 +42,28 @@ public class BasicColorMask implements PixelFilter, Interactive {
 
         System.out.println("Threshold: " + k);
 
+        img.setColorChannels(newRed, newGreen, newBlue);
+
+        img = new Convolution(Convolution.betterGaussianBlur).processImage(img);
+
+        red = img.getRedChannel();
+        green = img.getGreenChannel();
+        blue = img.getBlueChannel();
+        newRed = new short[red.length][red[0].length];
+        newGreen = new short[green.length][green[0].length];
+        newBlue = new short[blue.length][blue[0].length];
+
+        if (targets == null) targets = new ArrayList<>();
+        System.out.println("Starting 2nd mask");
+        for (int r = 0; r < red.length; r++) {
+            for (int c = 0; c < red[r].length; c++) {
+                for (short[] target : targets) {
+                    mask(red[r][c], green[r][c], blue[r][c], target, k, newRed, newGreen, newBlue, c, r);
+                }
+            }
+        }
+        System.out.println("Finished 2nd mask");
+
 //        for (short[] target : targets) {
 //            System.out.println("finding center for " + target[0] + ", " + target[1] + ", " + target[2]);
 //            int sumR = 0, sumC = 0, count = 0;
